@@ -3,6 +3,10 @@ import * as bodyParser from 'body-parser';
 import * as dotenv from 'dotenv';
 import path = require('path');
 import * as cors from 'cors';
+import router from './app/routes/index.routes';
+import mongoose from 'mongoose';
+import { eSuccessMessage } from './app/enum/success-message.enum';
+import { eErrorMessage } from './app/enum/error-message.enum';
 
 dotenv.config();
 
@@ -14,7 +18,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(cors());
+app.use('/api/v1', router);
+
 app.use('/images', express.static(path.join('images')));
+
+mongoose
+	.connect(
+		`mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@cluster0.v8wyvs4.mongodb.net/?retryWrites=true&w=majority`
+	)
+	.then(() => {
+		console.log(eSuccessMessage.DbSuccessMessage);
+	})
+	.catch((err) => {
+		console.log(eErrorMessage.DbErrorMessage, err);
+		process.exit();
+	});
 
 app.listen(process.env.NODE_PORT, () => {
 	console.log(`Server is listening on port ${process.env.NODE_PORT}`);
