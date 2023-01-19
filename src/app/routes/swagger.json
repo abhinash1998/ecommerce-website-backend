@@ -1,0 +1,108 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "API Documentation in Node.js Using Swagger",
+		"description": "User Restful webservice application",
+		"license": {
+			"name": "MIT",
+			"url": "https://opensource.org/licenses/MIT"
+		}
+	},
+	"basePath": "/api/v1",
+	"tags": [
+		{
+			"name": "user"
+		}
+		
+	],
+	"produces": ["application/json"],
+	"paths": {
+		"/user/signup": {
+			"post": {
+				"tags": ["user"],
+				"description": "Add new User",
+				"parameters": [
+					{
+						"in": "body",
+						"name": "Request body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/SignUpUserRequest"
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"schema": {
+							"$ref": "#/definitions/UserResponse"
+						}
+					}
+				}
+			}
+		},
+		"/user/login": {
+			"post": {
+				"tags": ["user"],
+				"description": "Login User",
+				"parameters": [
+					{
+						"in": "body",
+						"name": "Request body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/SignInUserRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"schema": {
+							"$ref": "#/definitions/UserResponse"
+						}
+					}
+				}
+			}
+		}
+		
+	},
+	"definitions": {
+		"SignUpUserRequest": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				},
+				"contactNumber": {
+					"type": "number"
+				}
+			}
+		},
+		"SignInUserRequest": {
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				}
+			}
+		},
+		"UserResponse": {
+			"properties": {
+				"status": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				}			
+			}
+		}
+	}
+		
+}
