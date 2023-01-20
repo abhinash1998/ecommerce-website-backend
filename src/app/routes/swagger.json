@@ -13,8 +13,10 @@
 	"tags": [
 		{
 			"name": "user"
-		}
-		
+		},
+		{
+			"name": "category"
+		}	
 	],
 	"produces": ["application/json"],
 	"paths": {
@@ -63,8 +65,86 @@
 					}
 				}
 			}
-		}
-		
+		},
+		"/category/": {
+			"post": {
+				"tags": ["category"],
+				"description": "Create new category",
+				"consumes": ["multipart/form-data"],
+				"parameters": [
+					{
+						"name": "imagePath",
+						"in": "formData",
+						"type": "file"
+					},
+					{
+						"name": "name",
+						"in": "formData",
+						"type": "string"
+					},
+					{
+						"name": "code",
+						"in": "formData",
+						"type": "string"
+					},
+					{
+						"name": "parentCode",
+						"in": "formData",
+						"type": "string"
+					},
+					{
+						"name": "desc",
+						"in": "formData",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"201": {
+						"schema": {
+							"$ref": "#/definitions/CategoryModelResponse"
+						}
+					}
+				}
+			}
+		},
+		"/category": {
+			"get": {
+				"tags": ["category"],
+				"description": "List of all Categories",
+				"responses": {
+					"200": {
+						"schema": {
+							"$ref": "#/definitions/CategoryModelResponse"
+						}
+					}
+				}
+			}
+		},
+		"/category/categories/{categoryCode}": {
+			"get": {
+				"tags": ["category"],
+				"description": "Get List of all categories by Category Code",
+				"produces": ["application/json", "application/xml"],
+				"parameters": [
+					{
+						"name": "categoryCode",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"schema": {
+							"$ref": "#/definitions/CategoryModelResponse"
+						}
+					},
+					"404": {
+						"description": "No SubCategories present for Garments category"
+					}
+				}
+			}
+		}	
 	},
 	"definitions": {
 		"SignUpUserRequest": {
@@ -100,6 +180,34 @@
 				},
 				"message": {
 					"type": "string"
+				}			
+			}
+		},
+		"CategoryModelResponse": {
+			"properties": {
+				"_id": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"categoryImage": {
+					"type": "string"
+				},
+				"code": {
+					"type": "string"
+				},
+				"parentCode": {
+					"type": "string",
+					"example": "CW"
+				},
+				"createdAt": {
+					"type": "string",
+					"format":"date"
+				},
+				"activeStatus": {
+					"type": "number",
+					"example":1
 				}			
 			}
 		}

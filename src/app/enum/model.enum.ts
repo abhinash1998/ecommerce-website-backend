@@ -1,3 +1,4 @@
 export enum eModel {
-	User = 'user'
+	User = 'user',
+	Category = 'category'
 }
